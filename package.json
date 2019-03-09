@@ -1,0 +1,22 @@
+{
+  "name": "pomodoro-features-watcher",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RodionChachura/pomodoro-features-watcher.git"
+  },
+  "author": "RodionChachura",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RodionChachura/pomodoro-features-watcher/issues"
+  },
+  "homepage": "https://github.com/RodionChachura/pomodoro-features-watcher#readme",
+  "dependencies": {
+    "aws-sdk": "^2.418.0"
+  }
+}
