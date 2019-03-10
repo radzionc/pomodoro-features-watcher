@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/RodionChachura/pomodoro-features-watcher#readme",
   "dependencies": {
-    "aws-sdk": "^2.418.0"
+    "@sentry/node": "^4.6.4",
+    "aws-sdk": "^2.418.0",
+    "node-telegram-bot-api": "^0.30.0"
   }
 }
