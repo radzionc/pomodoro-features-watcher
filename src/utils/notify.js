@@ -9,7 +9,7 @@ module.exports = {
       const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN)
       const chatId = process.env.TELEGRAM_BOT_CHAT_ID
       const user = await usersTable.get(ownerId, ['name', 'email'])
-      bot.sendMessage(
+      await bot.sendMessage(
         chatId,
         `
         Hey GR! This is from pomodoro-features-watcher.
