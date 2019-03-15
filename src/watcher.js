@@ -18,9 +18,10 @@ module.exports = {
       }
       if (before && after) {
         const { email } = await usersTable.get(after.ownerId, ['email'])
+        console.log(email, before.status, after.status)
         if (before.status === FEATURE_STATUS.WAITING_FOR_CONFIRMATION && after.status === FEATURE_STATUS.IN_QUEUE) {
           await emailUtils.featureMovedIntoProgress(email, after.name)
-        } else if (before.status === FEATURE_STATUS.IN_QUEUE && after.status === FEATURE_STATUS.DONE) {
+        } else if ([FEATURE_STATUS.WAITING_FOR_CONFIRMATION, FEATURE_STATUS.IN_QUEUE, FEATURE_STATUS.IN_PROGRESS].includes(before.status) && after.status === FEATURE_STATUS.DONE) {
           await emailUtils.featureDone(email, after.name)
         }
       }
