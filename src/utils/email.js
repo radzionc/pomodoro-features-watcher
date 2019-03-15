@@ -8,7 +8,7 @@ const sendFeatureRelatedEmail = (email, mainText, link, linkText, subject) => {
     .replace('{MAIN_TEXT}', mainText)
     .replace('{LINK}', link)
     .replace('{LINK_TEXT}', linkText)
-
+  console.log(`sending email from ${process.env.SENDER_EMAIL_ADDRESS} to ${email}`)
   return new aws.SES({ region: process.env.AWS_REGION_SES })
     .sendEmail({
       Destination: {
