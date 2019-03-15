@@ -4,7 +4,7 @@ const Sentry = require('@sentry/node')
 const { FEATURE_STATUS } = require('./constants')
 const notify = require('./utils/notify')
 const emailUtils = require('./utils/email')
-const usersTable = require('../db/users')
+const usersTable = require('./db/users')
 
 module.exports = {
   processRecord: async ({ dynamodb: { Keys, NewImage, OldImage } }) => {
