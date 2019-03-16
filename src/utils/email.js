@@ -2,6 +2,25 @@ const aws = require('aws-sdk')
 const fs = require('fs')
 const path = require('path')
 
+const sendEmail = (email, html, subject) => new aws.SES({ region: process.env.AWS_REGION_SES })
+  .sendEmail({
+    Destination: {
+      ToAddresses: [email]
+    },
+    Message: {
+      Body: {
+        Html: {
+          Data: html
+        }
+      },
+      Subject: {
+        Data: subject
+      }
+    },
+    Source: process.env.SENDER_EMAIL_ADDRESS
+  })
+  .promise()
+
 const sendFeatureRelatedEmail = (email, mainText, link, linkText, subject) => {
   const defaultHTML = fs.readFileSync(path.resolve(__dirname, '../templates/default.html'), 'utf8')
   const readyHTML = defaultHTML
@@ -9,24 +28,7 @@ const sendFeatureRelatedEmail = (email, mainText, link, linkText, subject) => {
     .replace('{LINK}', link)
     .replace('{LINK_TEXT}', linkText)
   console.log(`sending email from ${process.env.SENDER_EMAIL_ADDRESS} to ${email}`)
-  return new aws.SES({ region: process.env.AWS_REGION_SES })
-    .sendEmail({
-      Destination: {
-        ToAddresses: [email]
-      },
-      Message: {
-        Body: {
-          Html: {
-            Data: readyHTML
-          }
-        },
-        Subject: {
-          Data: subject
-        }
-      },
-      Source: process.env.SENDER_EMAIL_ADDRESS
-    })
-    .promise()
+  return sendEmail(email, readyHTML, subject)
 }
 
 const featureMovedIntoProgress = (email, featureName) => sendFeatureRelatedEmail(
@@ -47,5 +49,6 @@ const featureDone = (email, featureName) => sendFeatureRelatedEmail(
 
 module.exports = {
   featureMovedIntoProgress,
-  featureDone
+  featureDone,
+  sendEmail
 }
