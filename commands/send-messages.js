@@ -7,8 +7,8 @@ const { sendEmail } = require('../src/utils/email')
 
 const documentClient = new AWS.DynamoDB.DocumentClient()
 
-const template = 'features'
-const subject = 'Make an Impact!'
+const template = 'statistics'
+const subject = 'Week Productivity Statistics'
 
 const paginationAware = method => async params => {
   const getItems = async (items, lastEvaluatedKey, firstTime = false) => {
