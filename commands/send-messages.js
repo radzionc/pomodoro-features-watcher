@@ -7,8 +7,8 @@ const { sendEmail } = require('../src/utils/email')
 
 const documentClient = new AWS.DynamoDB.DocumentClient()
 
-const template = 'statistics'
-const subject = 'Week Productivity Statistics'
+const template = 'projects'
+const subject = 'Possibility to add a name tag to Pomodoro I start.'
 
 const paginationAware = method => async params => {
   const getItems = async (items, lastEvaluatedKey, firstTime = false) => {
@@ -29,9 +29,15 @@ const sendEmails = async () => {
     TableName: TABLE_NAME.USERS,
     ProjectionExpression: 'email',
   })
-  const emails = users.map(u => u.email)
   const html = fs.readFileSync(path.resolve(__dirname, `../templates/${template}.html`), 'utf8')
-  await Promise.all(emails.map(email => sendEmail(email, html, subject)))
+  let emails = users.map(u => u.email)
+  while(emails.length > 0) {
+    const emailsToSend = emails.slice(0, 14)
+    console.log(`Emails to send: ${emails.length}`)
+    emails = emails.slice(14)
+    await Promise.all(emailsToSend.map(email => sendEmail(email, html, subject)))
+    await new Promise(r => setTimeout(r, 1000))
+  }
 }
 
 sendEmails()
