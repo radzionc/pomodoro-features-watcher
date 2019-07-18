@@ -7,8 +7,8 @@ const { sendEmail } = require('../src/utils/email')
 
 const documentClient = new AWS.DynamoDB.DocumentClient()
 
-const template = 'projects'
-const subject = 'Possibility to add a name tag to Pomodoro I start.'
+const template = 'subscription'
+const subject = 'Membership'
 
 const paginationAware = method => async params => {
   const getItems = async (items, lastEvaluatedKey, firstTime = false) => {
