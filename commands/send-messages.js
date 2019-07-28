@@ -7,8 +7,8 @@ const { sendEmail } = require('../src/utils/email')
 
 const documentClient = new AWS.DynamoDB.DocumentClient()
 
-const template = 'subscription'
-const subject = 'Membership'
+const template = 'weekly'
+const subject = '"Pomodoro by Increaser" News'
 
 const paginationAware = method => async params => {
   const getItems = async (items, lastEvaluatedKey, firstTime = false) => {
@@ -25,17 +25,21 @@ const paginationAware = method => async params => {
 const scan = paginationAware('scan')
 
 const sendEmails = async () => {
-  const users = await scan({
+  let users = await scan({
     TableName: TABLE_NAME.USERS,
-    ProjectionExpression: 'email',
+    ProjectionExpression: 'email, id',
+    FilterExpression: "ignorePomodoroNews <> :true",
+    ExpressionAttributeValues : {
+      ':true': true,
+    }
   })
+  // let users = [{ email: 'geekrodion@gmail.com', id: 'a25f64679413841eabf1fe070e27abee8' }]
   const html = fs.readFileSync(path.resolve(__dirname, `../templates/${template}.html`), 'utf8')
-  let emails = users.map(u => u.email)
-  while(emails.length > 0) {
-    const emailsToSend = emails.slice(0, 14)
-    console.log(`Emails to send: ${emails.length}`)
-    emails = emails.slice(14)
-    await Promise.all(emailsToSend.map(email => sendEmail(email, html, subject)))
+  while(users.length > 0) {
+    const emailsToSend = users.slice(0, 14)
+    console.log(`Emails to send: ${users.length}`)
+    users = users.slice(14)
+    await Promise.all(emailsToSend.map(({ email, id }) => sendEmail(email, html.replace('{{id}}', id), subject)))
     await new Promise(r => setTimeout(r, 1000))
   }
 }
