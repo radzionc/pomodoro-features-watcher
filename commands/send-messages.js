@@ -7,8 +7,12 @@ const { sendEmail } = require('../src/utils/email')
 
 const documentClient = new AWS.DynamoDB.DocumentClient()
 
-const template = 'weekly'
-const subject = '"Pomodoro by Increaser" News'
+const NUMBER = 7
+const YOUTUBE = 'https://youtu.be/VvAYbxoorws'
+const MEDIUM = 'https://medium.com/@geekrodion/pomodoro-by-increaser-news-7-3ff326a19670'
+
+const template = 'new-weekly'
+const subject = `Pomodoro by Increaser News #${NUMBER}`
 
 const paginationAware = method => async params => {
   const getItems = async (items, lastEvaluatedKey, firstTime = false) => {
@@ -33,8 +37,11 @@ const sendEmails = async () => {
       ':true': true,
     }
   })
-  // let users = [{ email: 'geekrodion@gmail.com', id: 'a25f64679413841eabf1fe070e27abee8' }]
-  const html = fs.readFileSync(path.resolve(__dirname, `../templates/${template}.html`), 'utf8')
+  const html = fs
+    .readFileSync(path.resolve(__dirname, `../templates/${template}.html`), 'utf8')
+    .split('{{number}}').join(NUMBER)
+    .replace('{{youtube}}', YOUTUBE)
+    .replace('{{medium}}', MEDIUM)
   while(users.length > 0) {
     const emailsToSend = users.slice(0, 14)
     console.log(`Emails to send: ${users.length}`)
