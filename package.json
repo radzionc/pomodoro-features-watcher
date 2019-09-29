@@ -19,7 +19,10 @@
   "dependencies": {
     "@sentry/node": "^4.6.4",
     "aws-sdk": "^2.418.0",
-    "awsdynamoutils": "^1.0.3",
+    "awsdynamoutils": "^1.0.8",
     "node-telegram-bot-api": "^0.30.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.4.0"
   }
 }

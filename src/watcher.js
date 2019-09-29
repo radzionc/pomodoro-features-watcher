@@ -7,7 +7,7 @@ const emailUtils = require('./utils/email')
 const usersTable = require('./db/users')
 
 module.exports = {
-  processRecord: async ({ dynamodb: { Keys, NewImage, OldImage } }) => {
+  processRecord: async ({ dynamodb: { NewImage, OldImage } }) => {
     try {
       const [before, after] = [OldImage, NewImage]
         .map(item => (item ? AWS.DynamoDB.Converter.unmarshall(item) : undefined))
@@ -26,7 +26,7 @@ module.exports = {
       }
     } catch (err) {
       Sentry.configureScope(scope => {
-        Object.entries(error).map(([key, value]) => scope.setExtra(key, value))
+        Object.entries(err).map(([key, value]) => scope.setExtra(key, value))
       })
       Sentry.captureException(
         'Watcher Fail'
