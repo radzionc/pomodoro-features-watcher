@@ -34,7 +34,7 @@ const sendFeatureRelatedEmail = (email, mainText, link, linkText, subject) => {
 const featureMovedIntoProgress = (email, featureName) => sendFeatureRelatedEmail(
   email,
   `Thank You for making a feature proposal. It is now in the list with the name "${featureName}."`,
-  'https://pomodoro.increaser.org/features',
+  'https://increaser.org/features',
   'Upvote Your Feature',
   'Your Feature in the List'
 )
@@ -42,7 +42,7 @@ const featureMovedIntoProgress = (email, featureName) => sendFeatureRelatedEmail
 const featureDone = (email, featureName) => sendFeatureRelatedEmail(
   email,
   `We finally implemented Your feature "${featureName}." What do you think about it?`,
-  'https://pomodoro.increaser.org',
+  'https://increaser.org',
   'Check It Out',
   'We Finally Implemented Your Feature'
 )
