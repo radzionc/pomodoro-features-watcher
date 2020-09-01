@@ -1,7 +1,7 @@
 const TelegramBot = require('node-telegram-bot-api')
-const Sentry = require('@sentry/node')
 
 const usersTable = require('../db/users')
+const { reportError } = require('./reporting')
 
 module.exports = {
   newFeatureSubmit: async ({ name, description, ownerId }) => {
@@ -22,12 +22,7 @@ module.exports = {
       `
       )
     } catch (err) {
-      Sentry.configureScope(scope => {
-        Object.entries(error).map(([key, value]) => scope.setExtra(key, value))
-      })
-      Sentry.captureException(
-        'Fail to notify via telegram about new feature submit.'
-      )
+      await reportError('Fail to notify via telegram about new feature submit.', { name, description, ownerId }, err)
     }
   }
 }

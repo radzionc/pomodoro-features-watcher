@@ -5,6 +5,9 @@ const { FEATURE_STATUS } = require('./constants')
 const notify = require('./utils/notify')
 const emailUtils = require('./utils/email')
 const usersTable = require('./db/users')
+const { reportError } = require('./utils/reporting')
+
+Sentry.init({ dsn: process.env.SENTRY_KEY })
 
 module.exports = {
   processRecord: async ({ dynamodb: { NewImage, OldImage } }) => {
@@ -25,12 +28,7 @@ module.exports = {
         }
       }
     } catch (err) {
-      Sentry.configureScope(scope => {
-        Object.entries(err).map(([key, value]) => scope.setExtra(key, value))
-      })
-      Sentry.captureException(
-        'Watcher Fail'
-      )
+      await reportError('Fail to process record', { NewImage, OldImage }, err)
     }
   }
 }
