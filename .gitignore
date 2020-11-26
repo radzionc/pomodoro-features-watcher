@@ -63,4 +63,7 @@ typings/
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+.DS_Store
+
 set_env_vars.sh
