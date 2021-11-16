@@ -18,7 +18,7 @@
   "homepage": "https://github.com/RodionChachura/pomodoro-features-watcher#readme",
   "dependencies": {
     "@sentry/node": "^4.6.6",
-    "aws-sdk": "^2.799.0",
+    "aws-sdk": "^2.814.0",
     "awsdynamoutils": "^1.0.10",
     "increaser-utils": "^1.0.18",
     "node-telegram-bot-api": "^0.30.0"
